@@ -3,10 +3,12 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// Debug: Log environment variables (remove values from logs for security)
-console.log('[Firebase] Loading environment variables...');
-console.log('[Firebase] VITE_FIREBASE_API_KEY:', import.meta.env.VITE_FIREBASE_API_KEY ? '✓ SET' : '✗ NOT SET');
-console.log('[Firebase] VITE_FIREBASE_PROJECT_ID:', import.meta.env.VITE_FIREBASE_PROJECT_ID ? '✓ SET' : '✗ NOT SET');
+// Debug: Log environment variables (only in development)
+if (import.meta.env.DEV) {
+  console.log('[Firebase] Loading environment variables...');
+  console.log('[Firebase] VITE_FIREBASE_API_KEY:', import.meta.env.VITE_FIREBASE_API_KEY ? '✓ SET' : '✗ NOT SET');
+  console.log('[Firebase] VITE_FIREBASE_PROJECT_ID:', import.meta.env.VITE_FIREBASE_PROJECT_ID ? '✓ SET' : '✗ NOT SET');
+}
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -19,20 +21,17 @@ const firebaseConfig = {
 
 // Validate Firebase config
 if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.projectId) {
-  console.error('[Firebase] ❌ CRITICAL: Missing Firebase environment variables!');
-  console.error('[Firebase] ❌ Please create a .env.local file with your Firebase credentials.');
-  console.error('[Firebase] ❌ See .env.local.example for the required format.');
-  console.error('[Firebase] Current config:', {
-    apiKey: firebaseConfig.apiKey ? 'SET' : 'MISSING',
-    authDomain: firebaseConfig.authDomain ? 'SET' : 'MISSING',
-    projectId: firebaseConfig.projectId ? 'SET' : 'MISSING'
-  });
+  const errorMsg = '[Firebase] ❌ CRITICAL: Missing Firebase environment variables! Please configure them in Vercel dashboard.';
+  console.error(errorMsg);
+  console.error('[Firebase] Required variables: VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN, VITE_FIREBASE_PROJECT_ID, etc.');
+
+  // In production, throw error to prevent app from running
+  if (!import.meta.env.DEV) {
+    throw new Error('Firebase configuration missing. Please check Vercel environment variables.');
+  }
 }
 
-console.log('[Firebase] ✓ Initializing Firebase with config:', {
-  apiKey: firebaseConfig.apiKey ? firebaseConfig.apiKey.substring(0, 10) + '...' : 'UNDEFINED',
-  projectId: firebaseConfig.projectId
-});
+console.log('[Firebase] ✓ Initializing Firebase with project:', firebaseConfig.projectId);
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
