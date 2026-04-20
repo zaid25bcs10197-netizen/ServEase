@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProviderList from '../components/ProviderList';
 import BookingForm from '../components/BookingForm';
 import BookingStatus from '../components/BookingStatus';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useBookings } from '../hooks/useBookings';

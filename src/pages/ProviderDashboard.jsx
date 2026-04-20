@@ -45,7 +45,7 @@ function ProviderDashboard() {
       setUser(prev => ({ ...prev, ...updatedData }));
       toast.success('Profile updated!');
       setShowModal(false);
-    } catch (e) {
+    } catch {
       toast.error('Failed to update profile');
     }
   };

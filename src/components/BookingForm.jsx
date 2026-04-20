@@ -49,7 +49,7 @@ const BookingForm = ({ provider, service, user, onBooked }) => {
       toast.success('Booking Sent Successfully');
       if (onBooked) onBooked();
       setAddress(''); setDate(''); setTimeSlot(''); setDescription('');
-    } catch (err) {
+    } catch {
       toast.error('Booking failed. Try again.');
     }
     setLoading(false);

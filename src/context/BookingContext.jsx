@@ -1,6 +1,6 @@
-import React, { createContext, useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { fetchServices, createBooking, fetchUserBookings, fetchProviderBookings, fetchAllBookings, updateBookingStatus, updateBooking, cancelBooking, deleteBooking as deleteBookingService } from '../services/bookingService';
-export const BookingContext = createContext();
+import { BookingContext } from './BookingContext.js';
 
 export const BookingProvider = ({ children }) => {
   const [services, setServices] = useState([]);

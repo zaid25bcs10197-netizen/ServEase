@@ -66,7 +66,7 @@ const useProviders = ({ service, filters, sortBy }) => {
     let filtered = providers.map(p => ({
       ...p,
       availableNow: isProviderAvailableNow(p.id, bookings),
-      experience: p.experience || Math.floor(Math.random() * 10) + 1 // fallback
+      experience: p.experience || 5 // fallback
     }));
     if (filters.rating) filtered = filtered.filter(p => (p.rating || 0) >= filters.rating);
     if (filters.priceRange)
